@@ -1,0 +1,19 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+body > div > div > img.card-img-top {
+    width: 225px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 25px;
+}
+
+.custom-select {
+    height: 30px;
+}

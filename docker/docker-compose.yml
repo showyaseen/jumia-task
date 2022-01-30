@@ -1,0 +1,21 @@
+version: '3'
+services:
+
+  jumia:
+    build:
+      context: .
+      dockerfile: Dockerfile-PHP8
+    volumes:
+      - "../:/var/www/html/"
+    container_name: jumia
+    networks:
+      jumia-net:
+        ipv4_address: 10.10.0.112
+
+networks:
+  jumia-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.0.0/16
+  
