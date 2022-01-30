@@ -1,6 +1,6 @@
 # Phone Numbers
 
-## TASK Description
+## Description
 
 Create a single page application that uses the database provided (SQLite 3) to list and
 categorize country phone numbers.
@@ -9,7 +9,7 @@ number.
 The page should render a list of all phone numbers available in the DB. It should be possible to
 filter by country and state. Pagination is an extra.
 
-#### Task Problems
+#### Problems
 1. Some information not exsit in the database such country, country_code, state and formatted phone_num.
 2. SQLite not support `regexp` function so we will not able to perfrom queries based on regex to filter phone numbers and cannot extract related info such country_code or validate phone number using regex conditions.
 
