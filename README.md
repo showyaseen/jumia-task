@@ -66,7 +66,7 @@ filter by country and state. Pagination is an extra.
 2. SQLite not support `regexp` function which is the key feature in this task since categorize phone and extract related info such country_code or validate phone number is depend on using regex conditions.
 
 ## Proposed Solution
-1. We have to create user defined functions into SQLite to support nessaccery operation needed to applied into phone number such `regex` funtion and formating function like extract country_code from phone number so we are able to provide the information needed to show.
+1. create user defined functions into SQLite to support nessaccery operation needed to applied into phone number such `regex` funtion and formating function like extract country_code from phone number so we are able to provide the information needed to show.
 3. using SQLite user defined functions we can perform our rules on database side so retrive only matched and formatted informations.
 2. define configuration file contain information about each country ex. country_name, regex rules for country phone numbers so this config file can be used in sqlite user defined functions to get country name from code or validate specific country phone numbers.
 
