@@ -52,7 +52,18 @@ this setting from docker-composeyaml file if there some conflicts with your loca
 
 please contact me if have any issue run the task project.
 
+## TASK PROBLEM
+#### Task Description
+Create a single page application that uses the database provided (SQLite 3) to list and
+categorize country phone numbers.
+Phone numbers should be categorized by country, state (valid or not valid), country code and
+number.
+The page should render a list of all phone numbers available in the DB. It should be possible to
+filter by country and state. Pagination is an extra.
 
+#### Task Problems
+1. he information needed to be rendered on the frontend is not exist on the database such country, country_code, state and formatted phone_num.
+2. SQLite not support `regexp` function which is the key feature in this task since categorize phone and extract related info such country_code or validate phone number is depend on using regex conditions.
 
 
  Author
