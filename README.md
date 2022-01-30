@@ -62,8 +62,51 @@ The page should render a list of all phone numbers available in the DB. It shoul
 filter by country and state. Pagination is an extra.
 
 #### Task Problems
-1. he information needed to be rendered on the frontend is not exist on the database such country, country_code, state and formatted phone_num.
+1. the information needed to be rendered on the frontend is not exist on the database such country, country_code, state and formatted phone_num.
 2. SQLite not support `regexp` function which is the key feature in this task since categorize phone and extract related info such country_code or validate phone number is depend on using regex conditions.
+
+## Proposed Solution
+1. We have to create user defined functions into SQLite to support nessaccery operation needed to applied into phone number such `regex` funtion and formating function like extract country_code from phone number so we are able to provide the information needed to show.
+2. we can define configuration file contain information about each country ex. country_name, regex function for country phone numbers so this config file can be used in sqlite user defined functions to get country name from code or validate specific country phone numbers.
+
+## Solution Components
+
+1. #### countries configuration file
+```php
+<?php
+
+return [
+    'countries' => [
+        237 => [
+            'regexp' => '\(237\)\ ?[2368]\d{7,8}$',
+            'country_name' => 'Cameroon',
+            'country_code' => '+237'
+        ],
+        251 => [
+            'regexp' => '\(251\)\ ?[1-59]\d{8}$',
+            'country_name' => 'Ethiopia',
+            'country_code' => '+251'
+        ],
+        212 => [
+            'regexp' => '\(212\)\ ?[5-9]\d{8}$',
+            'country_name' => 'Morocco',
+            'country_code' => '+212'
+        ],
+        258 => [
+            'regexp' => '\(258\)\ ?[28]\d{7,8}$',
+            'country_name' => 'Mozambique',
+            'country_code' => '+258'
+        ],
+        256 => [
+            'regexp' => '\(256\)\ ?\d{9}$',
+            'country_name' => 'Uganda',
+            'country_code' => '+256'
+        ],
+    ],
+    'phone_parts_regexp' => '^\(([0-9]{2,3})\)[ ](\w{7,11})$'
+];
+```
+
 
 
  Author
