@@ -11,7 +11,7 @@ filter by country and state. Pagination is an extra.
 
 #### Problems
 1. Some information not exsit in the database such country, country_code, state and formatted phone_num.
-2. SQLite not support `regexp` function so we will not able to perfrom queries based on regex to filter phone numbers and cannot extract related info such country_code or validate phone number using regex conditions.
+2. SQLite not support `regexp` function so we will not able to perfrom queries based on regex to filter phone numbers and cannot extract related info such country_code or validate phone number using regex query conditions.
 
 ## Proposed Solution
 1. create user defined functions into SQLite to support `regex` conditions and formating functions like extract country_code from phone number and other related usages.
@@ -129,21 +129,13 @@ class SQLiteFunctionServiceProvider extends ServiceProvider
 
     private function countryCodeFunction($phone)
     {
-        if (empty(config('phone_configuration.phone_parts_regexp'))) {
-            throw new Exception('phone extract parts configuration is not defiend');
-        }
-        mb_regex_encoding('UTF-8');
-        mb_ereg(config('phone_configuration.phone_parts_regexp'), $phone, $matches);
+        $matches = $this->extractPhoneParts($phone);
         return $matches[1] ?? null;
     }
 
     private function phoneNumFunction($phone)
     {
-        if (empty(config('phone_configuration.phone_parts_regexp'))) {
-            throw new Exception('phone extract parts configuration is not defiend');
-        }
-        mb_regex_encoding('UTF-8');
-        mb_ereg(config('phone_configuration.phone_parts_regexp'), $phone, $matches);
+        $matches = $this->extractPhoneParts($phone);
         return $matches[2] ?? null;
     }
 
@@ -151,15 +143,46 @@ class SQLiteFunctionServiceProvider extends ServiceProvider
     {
         $country_code = $this->countryCodeFunction($phone);
         $country_regex = config('phone_configuration.countries')[$country_code]['regexp'] ?? null;
-        mb_regex_encoding('UTF-8');
+
         if ($country_regex && mb_ereg($country_regex, $phone)) {
             return "OK";
         }
         return "NOK";
     }
+
+    private function extractPhoneParts($phone) {
+        if (empty(config('phone_configuration.phone_parts_regexp'))) {
+            throw new Exception('phone extract parts configuration is not defiend');
+        }
+        
+        mb_ereg(config('phone_configuration.phone_parts_regexp'), $phone, $matches);
+        return $matches;
+    }
 }
 ```
-#### 3. Phone Helper Trait
+#### 3. Customer Model
+
+```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use App\Traits\PhoneHelperTrait;
+use App\Traits\ApplyFilterTrait;
+
+class Customer extends Model
+{
+    use PhoneHelperTrait;
+    use ApplyFilterTrait;
+    use HasFactory;
+
+    protected $table = 'customer';
+
+}
+```
+#### 4. Phone Helper Trait
 
 ```php
 <?php
@@ -194,7 +217,7 @@ trait PhoneHelperTrait
 
 ```
 
-#### 4. ApplyFilterTrait
+#### 5. ApplyFilterTrait
 
 ```php
 <?php
@@ -219,7 +242,7 @@ trait ApplyFilterTrait
 
 ```
 
-#### 5. CustomerController
+#### 6. CustomerController
 
 ```php
 <?php
@@ -249,7 +272,7 @@ class CustomerController extends Controller
 
 ```
 
-#### 6. CountryController 
+#### 7. CountryController 
 ```php
 <?php
 

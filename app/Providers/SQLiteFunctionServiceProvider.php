@@ -60,21 +60,13 @@ class SQLiteFunctionServiceProvider extends ServiceProvider
 
     private function countryCodeFunction($phone)
     {
-        if (empty(config('phone_configuration.phone_parts_regexp'))) {
-            throw new Exception('phone extract parts configuration is not defiend');
-        }
-        mb_regex_encoding('UTF-8');
-        mb_ereg(config('phone_configuration.phone_parts_regexp'), $phone, $matches);
+        $matches = $this->extractPhoneParts($phone);
         return $matches[1] ?? null;
     }
 
     private function phoneNumFunction($phone)
     {
-        if (empty(config('phone_configuration.phone_parts_regexp'))) {
-            throw new Exception('phone extract parts configuration is not defiend');
-        }
-        mb_regex_encoding('UTF-8');
-        mb_ereg(config('phone_configuration.phone_parts_regexp'), $phone, $matches);
+        $matches = $this->extractPhoneParts($phone);
         return $matches[2] ?? null;
     }
 
@@ -82,10 +74,19 @@ class SQLiteFunctionServiceProvider extends ServiceProvider
     {
         $country_code = $this->countryCodeFunction($phone);
         $country_regex = config('phone_configuration.countries')[$country_code]['regexp'] ?? null;
-        mb_regex_encoding('UTF-8');
+
         if ($country_regex && mb_ereg($country_regex, $phone)) {
             return "OK";
         }
         return "NOK";
+    }
+
+    private function extractPhoneParts($phone) {
+        if (empty(config('phone_configuration.phone_parts_regexp'))) {
+            throw new Exception('phone extract parts configuration is not defiend');
+        }
+        
+        mb_ereg(config('phone_configuration.phone_parts_regexp'), $phone, $matches);
+        return $matches;
     }
 }
