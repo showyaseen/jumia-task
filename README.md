@@ -72,7 +72,7 @@ filter by country and state. Pagination is an extra.
 
 ## Solution Components
 
-#### 1.countries configuration file
+#### 1. Countries configuration file
 using the configuration we can define regex needed to parse any phone number extract country_code we can also validate the phone using regex based on country defiend rules or get country name from country_code.
 
 ```php
@@ -110,9 +110,9 @@ return [
 ];
 ```
 
-#### 2.Add user defined functions using laravel service provider
+#### 2. Add user defined functions using laravel service provider
 
-follwoing `SQLiteFunctionServiceProvider.php` file the define our needed user defined functions which they are:
+follwoing `SQLiteFunctionServiceProvider.php` file define our needed user defined functions as follwoing:
 1. `regex` function that can used by query where conditions to filter records based on spesiffic country regex rule and it takes form of `coulmn regex pattern`. 
 2. `country_code()` function which can extract country_code from phone column using regex defined into configuration file.
 3. `phone_num()` function to extract phone number without country code.
@@ -211,7 +211,7 @@ class SQLiteFunctionServiceProvider extends ServiceProvider
     }
 }
 ```
-#### 3.Phone Helper Trait
+#### 3. Phone Helper Trait
 
 ```php
 <?php
@@ -246,7 +246,7 @@ trait PhoneHelperTrait
 
 ```
 
-#### 4.ApplyFilterTrait
+#### 4. ApplyFilterTrait
 
 ```php
 <?php
@@ -271,7 +271,7 @@ trait ApplyFilterTrait
 
 ```
 
-#### 5.CustomerController
+#### 5. CustomerController
 
 ```php
 <?php
@@ -301,7 +301,7 @@ class CustomerController extends Controller
 
 ```
 
-#### 6.CountryController 
+#### 6. CountryController 
 ```php
 <?php
 
@@ -323,7 +323,7 @@ class CountryController extends Controller
 
 ## THANKS 
 
-Thanks for reaching this point :) please feel free to contaact me to disucss any thing realted to the implemntation above.
+Thanks for reaching this point :) please feel free to contact me to disucss any thing realted to the implementation above.
 
 
  Author
