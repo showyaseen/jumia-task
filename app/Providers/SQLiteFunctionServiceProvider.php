@@ -60,14 +60,14 @@ class SQLiteFunctionServiceProvider extends ServiceProvider
 
     private function countryCodeFunction($phone)
     {
-        $matches = $this->extractPhoneParts($phone);
-        return $matches[1] ?? null;
+        $phoneParts = $this->extractPhoneParts($phone);
+        return $phoneParts[1] ?? null;
     }
 
     private function phoneNumFunction($phone)
     {
-        $matches = $this->extractPhoneParts($phone);
-        return $matches[2] ?? null;
+        $phoneParts = $this->extractPhoneParts($phone);
+        return $phoneParts[2] ?? null;
     }
 
     private function phoneStateFunction($phone)
