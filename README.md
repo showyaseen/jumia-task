@@ -291,24 +291,6 @@ class CountryController extends Controller
 
 ```
 
-## Installation
-
-To run this project without issues please use  docker container to build up the project follwoing the steps to uild the project.
-
-go to docker directory and build docker containers:
-
-```bash
-cd docker
-docker-compose build
-```
-
-and after project built successfully start up the containers:
-
-```bash
-docker-compose up -d
-```
-
-
 ## Frontend Components
 #### 1. App.vue
 
@@ -471,6 +453,23 @@ export default {
   }
 };
 </script>
+```
+
+## Installation
+
+To run this project without issues please use  docker container to build up the project follwoing the steps to uild the project.
+
+go to docker directory and build docker containers:
+
+```bash
+cd docker
+docker-compose build
+```
+
+and after project built successfully start up the containers:
+
+```bash
+docker-compose up -d
 ```
 
 ## Build Project
