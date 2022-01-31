@@ -66,7 +66,7 @@ follwoing `SQLiteFunctionServiceProvider.php` file define our needed user define
 3. `PHONE_NUM()` function to extract phone number without country code will allow query format like `SELECT PHONE_NUM(phone) FROM customer;` this sholud return `123456789` from given phone number `(212) 123456789`.
 4. `PHONE_STATE()` it can take phone number and using the apprpriate regexp from confgiuration file and return `OK` or `NOK`, the typical usegae: `SELECT PHONE_STATE(phone) FROM customer;`.
 
-so combine all these function to retrive country_code, state, phone_num for specific country SQLite can no support query in form of `SELECT COUNTRY_CODE(phone), PHONE_STATE(phone), PHONE_NUM(phone) FROM customer where COUNTRY_CODE(phone) = '256' `.
+so combine all these function to retrive country_code, state, phone_num for specific country SQLite can now support query in form of `SELECT COUNTRY_CODE(phone), PHONE_STATE(phone), PHONE_NUM(phone) FROM customer where COUNTRY_CODE(phone) = '256' `.
 
 Follwoing php code will register and define these SQLite function when our app bootstrap, Laravel load all Service Providers defined in `app.php` Service Provider array one by one execute there `register` and `boot` functions. 
 
