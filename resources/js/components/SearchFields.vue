@@ -20,7 +20,7 @@ export default {
   },
   watch: {
     countries(countries) {
-      this.countriesList = [{ value: null, text: "Please select an option" }];
+      this.countriesList = [{ value: null, text: "Please select a contury" }];
       countries.forEach((country) =>
         this.countriesList.push({
           value: country.country_code,
@@ -39,9 +39,9 @@ export default {
     return {
       selectedCountry: null,
       selectedState: null,
-      countriesList: [{ value: null, text: "Please select an option" }],
+      countriesList: [{ value: null, text: "Please select a contury" }],
       stateList: [
-        { value: null, text: "Please select an option" },
+        { value: null, text: "Please select phone state" },
         { value: 'OK', text: "Valid phone numbers" },
         { value: 'NOK', text: "Invalid phone numbers" },
       ],

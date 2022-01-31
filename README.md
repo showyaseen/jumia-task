@@ -297,8 +297,35 @@ class CustomerController extends Controller
 }
 
 ```
+#### 8.CustomerResource
+```php
+<?php
 
-#### 8. CountryController 
+namespace App\Http\Resources;
+
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class CustomerResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     */
+    public function toArray($request)
+    {
+        return [
+            'country' => $this->country,
+            'state' => $this->phone_state,
+            'country_code' => $this->country_code,
+            'phone_num.' => $this->phone_num
+        ];
+    }
+}
+```
+
+#### 9. CountryController 
 ```php
 <?php
 
@@ -315,6 +342,31 @@ class CountryController extends Controller
     }
 }
 
+```
+#### 10. CountryResource
+```php
+<?php
+
+namespace App\Http\Resources;
+
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class CountryCodeResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     */
+    public function toArray($request)
+    {
+        return [
+            'country_name' => $this->country,
+            'country_code' => str_replace('+', '', $this->country_code),
+        ];
+    }
+}
 ```
 
 ## Frontend Components
@@ -398,27 +450,6 @@ export default {
 ```vue
 <template>
   <div>
-    <b-row class="mt-4">
-      <b-col>
-        <b-table striped hover :items="customers"></b-table>
-      </b-col>
-    </b-row>
-  </div>
-</template>
-
-<script>
-export default {
-  props: {
-    customers: Array,
-  },
-};
-</script>
-```
-
-#### 3. SearchFields.vue
-```vue
-<template>
-  <div>
     <b-form inline>
       <b-row class="mt-4">
         <b-col cols="3">
@@ -439,7 +470,7 @@ export default {
   },
   watch: {
     countries(countries) {
-      this.countriesList = [{ value: null, text: "Please select an option" }];
+      this.countriesList = [{ value: null, text: "Please select a contury" }];
       countries.forEach((country) =>
         this.countriesList.push({
           value: country.country_code,
@@ -458,9 +489,9 @@ export default {
     return {
       selectedCountry: null,
       selectedState: null,
-      countriesList: [{ value: null, text: "Please select an option" }],
+      countriesList: [{ value: null, text: "Please select a contury" }],
       stateList: [
-        { value: null, text: "Please select an option" },
+        { value: null, text: "Please select phone state" },
         { value: 'OK', text: "Valid phone numbers" },
         { value: 'NOK', text: "Invalid phone numbers" },
       ],
