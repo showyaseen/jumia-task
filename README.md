@@ -517,13 +517,15 @@ npm run dev
 ```
 
 
-
 ## RUN Project 
 
 visit the ip:
 http://10.10.0.102/
 
 this setting from docker-compose.yaml file if there some conflicts with your local network just adjust settings on theat file.
+
+![image](https://user-images.githubusercontent.com/18754030/151859491-02007624-ebc1-4429-9ba9-e621c4e01ed4.png)
+
 
 
 ## THANKS 
