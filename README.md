@@ -396,16 +396,10 @@ export default {
     <b-form inline>
       <b-row class="mt-4">
         <b-col cols="3">
-          <b-form-select
-            v-model="selectedCountry"
-            :options="countriesList"
-          ></b-form-select>
+          <b-form-select v-model="selectedCountry" :options="countriesList"></b-form-select>
         </b-col>
         <b-col cols="3">
-          <b-form-select
-            v-model="selectedState"
-            :options="stateList"
-          ></b-form-select>
+          <b-form-select v-model="selectedState" :options="stateList"></b-form-select>
         </b-col>
       </b-row>
     </b-form>
