@@ -84,7 +84,7 @@ so this will return only numbers in Morocco country.
 
 this query should return `123456789` from given phone number `(212) 123456789`.
 
-4. `PHONE_STATE()` it can take phone number and using the apprpriate regexp from confgiuration file and return `OK` or `NOK`, the typical usegae: 
+4. `PHONE_STATE()` it can take phone number and using the appropriate regexp from confgiuration file and return `OK` or `NOK`, the typical usegae: 
 
 `SELECT PHONE_STATE(phone) FROM customer;`.
 
