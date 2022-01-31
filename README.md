@@ -343,7 +343,7 @@ class CountryController extends Controller
 }
 
 ```
-#### 10. CountryResource
+#### 10. CountryCodeResource
 ```php
 <?php
 
