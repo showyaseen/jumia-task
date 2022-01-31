@@ -308,6 +308,171 @@ and after project built successfully start up the containers:
 docker-compose up -d
 ```
 
+
+## Frontend Components
+#### 1. App.vue
+
+```vue
+<template>
+  <div class="container">
+      <b-card
+      img-src="https://group.jumia.com/_nuxt/img/j-group.67a6140.svg"
+      img-top
+      header-tag="header"
+      title="Phone Numbers"
+      class="jumia_img mt-4"
+    >
+      <search-fields  :countries="countries" ></search-fields>
+      <customer-list :customers="customers"></customer-list>
+      <pagination align="center" :data="customersPagination" @pagination-change-page="getCustomerList"></pagination>    
+      </b-card>
+  </div>
+</template>
+
+<script>
+import axios from "axios";
+import pagination from 'laravel-vue-pagination'
+import CustomerList from "./components/CustomerList.vue";
+import SearchFields from "./components/SearchFields.vue";
+export default {
+  components: {
+    CustomerList,
+    SearchFields,
+    pagination
+  },
+  data() {
+    return {
+      filters: {},
+      customers: [],
+      countries: [],
+      customersPagination: {}
+    };
+  },
+  created() {
+    this.getCustomerList();
+    this.getCountriesList();
+
+    this.$root.$on('filterBy', (filterBy) => {
+      this.filters[filterBy.by] = filterBy.value;
+      this.getCustomerList();
+    })
+  },
+  methods: {
+    getCustomerList(page = 1) {
+      axios
+        .post(`/api/customers?page=${page}`, {filters: this.filters})
+        .then((response) => {
+          this.customers = response.data.data;
+          this.customersPagination = response.data;
+        })
+        .catch((err) => {
+          console.log("some thing wrong happened");
+        });
+    },
+    getCountriesList() {
+      axios
+        .get(`/api/countries-list`)
+        .then((response) => {
+          this.countries = response.data.data;
+        })
+        .catch((err) => {
+          console.log("some thing wrong happened");
+        });
+    }
+  }
+};
+</script>
+```
+
+
+#### 2. CustomerList.vue
+
+```vue
+<template>
+  <div>
+    <b-row class="mt-4">
+      <b-col>
+        <b-table striped hover :items="customers"></b-table>
+      </b-col>
+    </b-row>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    customers: Array,
+  },
+};
+</script>
+```
+
+#### 3. SearchFields.vue
+```vue
+<template>
+  <div>
+    <b-form inline>
+      <b-row class="mt-4">
+        <b-col cols="3">
+          <b-form-select
+            v-model="selectedCountry"
+            :options="countriesList"
+          ></b-form-select>
+        </b-col>
+        <b-col cols="3">
+          <b-form-select
+            v-model="selectedState"
+            :options="stateList"
+          ></b-form-select>
+        </b-col>
+      </b-row>
+    </b-form>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    countries: Array,
+  },
+  watch: {
+    countries(countries) {
+      this.countriesList = [{ value: null, text: "Please select an option" }];
+      countries.forEach((country) =>
+        this.countriesList.push({
+          value: country.country_code,
+          text: country.country_name,
+        })
+      );
+    },
+    selectedCountry(country_code) {
+      this.filterBy({by: 'country_code', value: country_code});
+    },
+    selectedState(state) {
+      this.filterBy({by: 'state', value: state});
+    },
+  },
+  data() {
+    return {
+      selectedCountry: null,
+      selectedState: null,
+      countriesList: [{ value: null, text: "Please select an option" }],
+      stateList: [
+        { value: null, text: "Please select an option" },
+        { value: 'OK', text: "Valid phone numbers" },
+        { value: 'NOK', text: "Invalid phone numbers" },
+      ],
+    };
+  },
+  methods: {
+    filterBy($filter) {
+      this.$root.$emit('filterBy', $filter);
+    }
+  }
+};
+</script>
+```
+
 ## Build Project
 ###### Build Laravel & Vuejs 
  build project (Laravel & Vuejs) using follwoing steps.
