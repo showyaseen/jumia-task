@@ -61,11 +61,13 @@ return [
 #### 2. Add user defined functions using laravel service provider
 
 follwoing `SQLiteFunctionServiceProvider.php` file define our needed user defined functions as follwoing:
+
 1. `regexp` function that can used by query where conditions to filter records based on spesiffic country regexp rule and it takes form of 
 
 `SELECT * FROM customer WHERE phone REGEXP \(237\)\ ?[2368]\d{7,8}$` 
 
-this query will retrive only Cameron matched phone numbers. 
+this query will retrive only Cameron matched phone numbers.
+
 2. `COUNTRY_CODE()` function which can extract country_code from phone column using regexp defined into configuration file, this will allow query format like 
 
 `SELECT COUNTRY_CODE(phone) FROM customer;` 
@@ -75,11 +77,13 @@ this query should return `212` from given phone number `(212) 123456789` also th
 `SELECT * FROM customer WHERE COUNTRY_CODE(phone) = '212'` 
 
 so this will return only numbers in Morocco country.
+
 3. `PHONE_NUM()` function to extract phone number without country code will allow query format like 
 
 `SELECT PHONE_NUM(phone) FROM customer;` 
 
 this query should return `123456789` from given phone number `(212) 123456789`.
+
 4. `PHONE_STATE()` it can take phone number and using the apprpriate regexp from confgiuration file and return `OK` or `NOK`, the typical usegae: 
 
 `SELECT PHONE_STATE(phone) FROM customer;`.
