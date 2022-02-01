@@ -28,5 +28,5 @@ return [
             'country_code' => '+256'
         ],
     ],
-    'phone_parts_regexp' => '^\(([0-9]{2,3})\)[ ](\w{7,11})$'
+    'phone_parts_regexp' => '^\(([0-9]{2,3})\)[ ](\w{2,11})$'
 ];
