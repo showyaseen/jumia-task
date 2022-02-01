@@ -98,7 +98,7 @@ return [
 
 #### 2. Add user defined functions using laravel service provider
 
-follwoing `SQLiteFunctionServiceProvider.php` file contain code that will register and define required SQLite functions when our app bootstrap, Laravel load all Service Providers [Laravel Service Provider](https://laravel.com/docs/8.x/providers) defined in `app.php` Service Provider array one by one execute there `register` and `boot` functions. 
+follwoing `SQLiteFunctionServiceProvider.php` file contain code that will register and define required SQLite functions when our app bootstrap, Laravel load all [Service Providers](https://laravel.com/docs/8.x/providers) defined in `app.php` Service Provider array one by one execute there `register` and `boot` functions. 
 
 
 ```php
