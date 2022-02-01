@@ -469,7 +469,7 @@ export default {
 ```
 
 
-#### 2. CustomerList.vue
+#### 2. SearchFields.vue
 
 ```vue
 <template>
@@ -526,6 +526,27 @@ export default {
       this.$root.$emit('filterBy', $filter);
     }
   }
+};
+</script>
+```
+
+#### 3. CustomerList.vue
+```vue
+<template>
+  <div>
+    <b-row class="mt-4">
+      <b-col>
+        <b-table striped hover :items="customers"></b-table>
+      </b-col>
+    </b-row>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    customers: Array,
+  },
 };
 </script>
 ```
