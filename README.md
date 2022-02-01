@@ -9,6 +9,12 @@ number.
 The page should render a list of all phone numbers available in the DB. It should be possible to
 filter by country and state. Pagination is an extra.
 
+![image](https://user-images.githubusercontent.com/18754030/151941993-ded27701-7bdf-446b-93e8-e6a224b984c7.png)
+
+
+![image](https://user-images.githubusercontent.com/18754030/151941922-46c3aa17-e6de-44e6-8f67-251fe4fe50c8.png)
+
+
 #### Problems
 1. Some information not exsit in the database such country, country_code, state and formatted phone_num.
 2. SQLite not support `regexp` function so we will not able to perfrom queries based on regexp to filter phone numbers and cannot extract related info such country_code or validate phone number using regexp query conditions.
