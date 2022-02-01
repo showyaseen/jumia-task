@@ -15,7 +15,7 @@ filter by country and state. Pagination is an extra.
 ![image](https://user-images.githubusercontent.com/18754030/151941922-46c3aa17-e6de-44e6-8f67-251fe4fe50c8.png)
 
 
-#### Problems
+## Problems
 1. Some information not exsit in the database such country, country_code, state and formatted phone_num.
 2. SQLite not support `regexp` function so we will not able to perfrom queries based on regexp to filter phone numbers and cannot extract related info such country_code or validate phone number using regexp query conditions.
 
@@ -23,6 +23,38 @@ filter by country and state. Pagination is an extra.
 1. create user defined functions into SQLite to support `regexp` conditions and formating functions like extract country_code from phone number and other related usages.
 3. using SQLite user defined functions we can perform query filters on database side so retrive only matched and formatted information.
 2. define configuration file contain information about each country ex. country_name, regexp rules for country phone numbers so this config file can be used in SQLite user defined functions to get country name from code or validate specific country phone numbers.
+
+our needed user defined functions as follwoing:
+
+1. `regexp` function that can used by query where conditions to filter records based on spesiffic country regexp rule and it takes form of 
+
+`SELECT * FROM customer WHERE phone REGEXP \(237\)\ ?[2368]\d{7,8}$` 
+
+this query will retrive only Cameron matched phone numbers.
+
+2. `COUNTRY_CODE()` function which can extract country_code from phone column using regexp defined into configuration file, this will allow query format like 
+
+`SELECT COUNTRY_CODE(phone) FROM customer;` 
+
+this query should return `212` from given phone number `(212) 123456789` also this function is used in our project to filter company in form like: 
+
+`SELECT * FROM customer WHERE COUNTRY_CODE(phone) = '212'` 
+
+so this will return only numbers in Morocco country.
+
+3. `PHONE_NUM()` function to extract phone number without country code will allow query format like 
+
+`SELECT PHONE_NUM(phone) FROM customer;` 
+
+this query should return `123456789` from given phone number `(212) 123456789`.
+
+4. `PHONE_STATE()` it can take phone number and using the appropriate regexp from confgiuration file and return `OK` or `NOK`, the typical usegae: 
+
+`SELECT PHONE_STATE(phone) FROM customer;`.
+
+5. Finally, combine all these function to retrive country_code, state, phone_num for specific country SQLite can now support query in form of 
+
+`SELECT COUNTRY_CODE(phone), PHONE_STATE(phone), PHONE_NUM(phone) FROM customer where COUNTRY_CODE(phone) = '256' `.
 
 ## Solution Components
 
@@ -66,39 +98,7 @@ return [
 
 #### 2. Add user defined functions using laravel service provider
 
-follwoing `SQLiteFunctionServiceProvider.php` file define our needed user defined functions as follwoing:
-
-1. `regexp` function that can used by query where conditions to filter records based on spesiffic country regexp rule and it takes form of 
-
-`SELECT * FROM customer WHERE phone REGEXP \(237\)\ ?[2368]\d{7,8}$` 
-
-this query will retrive only Cameron matched phone numbers.
-
-2. `COUNTRY_CODE()` function which can extract country_code from phone column using regexp defined into configuration file, this will allow query format like 
-
-`SELECT COUNTRY_CODE(phone) FROM customer;` 
-
-this query should return `212` from given phone number `(212) 123456789` also this function is used in our project to filter company in form like: 
-
-`SELECT * FROM customer WHERE COUNTRY_CODE(phone) = '212'` 
-
-so this will return only numbers in Morocco country.
-
-3. `PHONE_NUM()` function to extract phone number without country code will allow query format like 
-
-`SELECT PHONE_NUM(phone) FROM customer;` 
-
-this query should return `123456789` from given phone number `(212) 123456789`.
-
-4. `PHONE_STATE()` it can take phone number and using the appropriate regexp from confgiuration file and return `OK` or `NOK`, the typical usegae: 
-
-`SELECT PHONE_STATE(phone) FROM customer;`.
-
-5. Finally, combine all these function to retrive country_code, state, phone_num for specific country SQLite can now support query in form of 
-
-`SELECT COUNTRY_CODE(phone), PHONE_STATE(phone), PHONE_NUM(phone) FROM customer where COUNTRY_CODE(phone) = '256' `.
-
-Follwoing php code will register and define these SQLite function when our app bootstrap, Laravel load all Service Providers defined in `app.php` Service Provider array one by one execute there `register` and `boot` functions. 
+follwoing `SQLiteFunctionServiceProvider.php` file contain code that will register and define these SQLite function when our app bootstrap, Laravel load all Service Providers defined in `app.php` Service Provider array one by one execute there `register` and `boot` functions. 
 
 
 ```php
